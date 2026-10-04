@@ -133,8 +133,8 @@ export const people: Person[] = [
     title:
       'Undergraduate Researcher · Sustainable Bioproducts and Natural Resources',
     program: 'Sustainable Bioproducts and Wildlife, Fisheries & Aquaculture',
-    image: '/people/placeholder-person.svg',
-    imageAlt: 'Profile photo placeholder for Quinton Wiley',
+    image: '/people/quinton-wiley.webp',
+    imageAlt: 'Portrait of Quinton Wiley',
     bio: 'Quinton Wiley is an undergraduate researcher whose interests connect sustainability and conservation with sustainable-product development. He has participated in the Sustainable Bioproducts REU and previously served as a research assistant in Mississippi State University’s College of Forest Resources.',
     researchInterests: [
       'Sustainability and conservation',
