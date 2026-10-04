@@ -13,10 +13,10 @@ interface PersonCardProps {
 export function PersonCard({ person, featured = false }: PersonCardProps) {
   const hasRealEmail = person.email && !isPlaceholderValue(person.email);
   const profileLinks = [
+    person.linkedin ? { label: 'LinkedIn', href: person.linkedin } : null,
     person.website
       ? { label: person.websiteLabel ?? 'Website', href: person.website }
       : null,
-    person.linkedin ? { label: 'LinkedIn', href: person.linkedin } : null,
     person.googleScholar
       ? { label: 'Google Scholar', href: person.googleScholar }
       : null,
@@ -137,18 +137,22 @@ export function PersonCard({ person, featured = false }: PersonCardProps) {
               <MapPin className="size-4" aria-hidden="true" /> {person.office}
             </span>
           ) : null}
-          {profileLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              {link.label}
-              <ExternalLink className="size-4" aria-hidden="true" />
-            </a>
-          ))}
+          {profileLinks.length ? (
+            <div className="flex w-full flex-col items-start gap-2">
+              {profileLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {link.label}
+                  <ExternalLink className="size-4" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
     </article>

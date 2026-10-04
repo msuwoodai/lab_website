@@ -105,6 +105,8 @@ export const people: Person[] = [
       'B.S. in Mechanical Engineering, Mississippi State University (in progress)',
     ],
     linkedin: 'https://www.linkedin.com/in/beebekisme',
+    website: 'https://www.bibekbhatta.com/',
+    websiteLabel: 'Personal website',
   },
   {
     id: 'niraj-gupta',
@@ -125,6 +127,8 @@ export const people: Person[] = [
       'B.S. in Computer Science, Mississippi State University (expected 2028)',
     ],
     linkedin: 'https://www.linkedin.com/in/ng9812',
+    website: 'https://guptaniraj.com.np/',
+    websiteLabel: 'Personal website',
   },
   {
     id: 'quinton-wiley',
