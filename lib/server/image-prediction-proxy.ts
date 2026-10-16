@@ -1,6 +1,6 @@
 import { env } from 'cloudflare:workers';
 
-const MODEL_API_ORIGIN = 'https://aims-model-api.vercel.app';
+const MODEL_API_ORIGIN = 'https://api.msuwoodai.com';
 const MAX_FILE_BYTES = 4 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 60_000;
 
