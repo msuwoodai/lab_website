@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { availableProducts } from '@/data/products';
-import { projects } from '@/data/projects';
+import { publishedProjects } from '@/data/projects';
 import { absoluteUrl } from '@/lib/metadata';
 
 const staticRoutes = [
@@ -16,7 +16,9 @@ const staticRoutes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const projectRoutes = projects.map((project) => `/projects/${project.slug}`);
+  const projectRoutes = publishedProjects.map(
+    (project) => `/projects/${project.slug}`,
+  );
   const productRoutes = availableProducts.flatMap((product) =>
     product.demoUrl ? [product.demoUrl] : [],
   );

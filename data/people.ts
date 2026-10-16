@@ -7,7 +7,7 @@ export const people: Person[] = [
     role: 'principal-investigator',
     title: 'Interim Head · Associate Professor',
     image: '/people/jason-tyler-street.jpg',
-    bio: 'Dr. Street leads AIMS Lab and serves as Interim Head and Associate Professor in Mississippi State University’s Department of Sustainable Bioproducts. His work spans sustainable materials, engineered wood products, artificial intelligence, transport modeling, and renewable energy systems.',
+    bio: 'Dr. Street leads MSU Wood AI and serves as Interim Head and Associate Professor in Mississippi State University’s Department of Sustainable Bioproducts. His work spans sustainable materials, engineered wood products, artificial intelligence, transport modeling, and renewable energy systems.',
     researchInterests: [
       'Bio-based composites and engineered wood products',
       'AI and machine learning in materials research',
@@ -155,7 +155,7 @@ export const people: Person[] = [
     title: 'Laboratory Technician · Huber Engineered Woods',
     image: '/people/placeholder-person.svg',
     imageAlt: 'Profile photo placeholder for Ethan Turo',
-    bio: 'Ethan Turo is an AIMS Lab alumnus with M.S. and B.S. degrees in Sustainable Bioproducts from Mississippi State University. His research involved testing the mechanical and physical properties of wood and engineered wood products and analyzing the resulting data. He is now a laboratory technician at Huber Engineered Woods.',
+    bio: 'Ethan Turo is an MSU Wood AI alumnus with M.S. and B.S. degrees in Sustainable Bioproducts from Mississippi State University. His research involved testing the mechanical and physical properties of wood and engineered wood products and analyzing the resulting data. He is now a laboratory technician at Huber Engineered Woods.',
     researchInterests: [
       'Engineered wood products',
       'Wood materials testing',

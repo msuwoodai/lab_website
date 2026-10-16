@@ -91,10 +91,14 @@ export const projects: Project[] = [
   },
 ];
 
-export const featuredProjects = projects.filter(
+export const publishedProjects = projects.filter(
+  (project) => !project.isPlaceholder,
+);
+
+export const featuredProjects = publishedProjects.filter(
   (project) => project.isFeatured,
 );
 
 export function getProjectBySlug(slug: string) {
-  return projects.find((project) => project.slug === slug);
+  return publishedProjects.find((project) => project.slug === slug);
 }

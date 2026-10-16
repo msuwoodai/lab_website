@@ -12,7 +12,7 @@ import { ProjectCard } from '@/components/site/project-card';
 import { PublicationItem } from '@/components/site/publication-item';
 import { ResearchAreaCard } from '@/components/site/research-area-card';
 import { SectionHeading } from '@/components/site/section-heading';
-import { newsItems } from '@/data/news';
+import { publishedNewsItems } from '@/data/news';
 import { currentResearchers, principalInvestigator } from '@/data/people';
 import { products } from '@/data/products';
 import { featuredProjects } from '@/data/projects';
@@ -23,22 +23,26 @@ import { siteConfig } from '@/data/site';
 export default function Home() {
   return (
     <main id="main-content">
-      <section className="relative overflow-hidden border-b border-border">
-        <Container className="grid min-h-[calc(100svh-8rem)] items-stretch gap-10 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-16">
-          <div className="flex max-w-3xl flex-col justify-center py-6 lg:py-12">
-            <h1 className="font-heading text-[clamp(3.1rem,7vw,6.2rem)] leading-[0.96] font-semibold tracking-[-0.028em] text-balance">
+      <section className="relative overflow-hidden border-b border-border bg-secondary/35">
+        <Container className="grid items-stretch gap-10 py-10 lg:min-h-[calc(100svh-5.25rem)] lg:grid-cols-[1.04fr_0.96fr] lg:gap-14 lg:py-14">
+          <div className="flex max-w-3xl flex-col justify-center py-5 lg:py-10">
+            <p className="mb-6 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs">
+              Mississippi State University · Department of Sustainable
+              Bioproducts
+            </p>
+            <h1 className="font-heading text-[clamp(3.2rem,7vw,6.7rem)] leading-[0.92] font-semibold tracking-[-0.042em] text-balance">
               {siteConfig.labName}
             </h1>
-            <p className="mt-5 font-heading text-xl leading-7 italic text-foreground sm:text-2xl">
-              {siteConfig.labExpansion}
+            <p className="mt-6 max-w-2xl font-heading text-xl leading-7 font-medium text-primary sm:text-2xl sm:leading-8">
+              {siteConfig.tagline}
             </p>
-            <p className="mt-3 text-base font-bold text-primary sm:text-lg">
-              {siteConfig.university}
+            <p className="mt-4 text-base font-semibold text-foreground sm:text-lg">
+              A research laboratory at {siteConfig.university}
             </p>
-            <p className="mt-1 text-sm italic text-muted-foreground sm:text-base">
+            <p className="mt-1 text-sm text-muted-foreground sm:text-base">
               {siteConfig.department}
             </p>
-            <p className="mt-8 max-w-2xl border-l-2 border-accent pl-5 text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
+            <p className="mt-8 max-w-2xl border-l-2 border-primary pl-5 text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
               {siteConfig.mission}
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -46,57 +50,64 @@ export default function Home() {
                 Explore our research
                 <ArrowRight aria-hidden="true" />
               </LinkButton>
-              <LinkButton href="/people" variant="outline">
-                Meet the team
+              <LinkButton href="/products" variant="outline">
+                Try our AI tools
               </LinkButton>
             </div>
-            <dl className="mt-12 grid max-w-xl grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3">
-              <div className="bg-background px-4 py-4">
+            <dl className="mt-12 grid max-w-2xl grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3">
+              <div className="bg-background px-4 py-4 sm:px-5">
                 <dt className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-muted-foreground">
-                  Primary research
+                  Computer vision
                 </dt>
                 <dd className="mt-2 text-xs font-bold uppercase tracking-[0.1em] text-foreground">
-                  Applied AI &amp; machine learning
+                  Classification &amp; detection
                 </dd>
               </div>
-              <div className="bg-background px-4 py-4">
+              <div className="bg-background px-4 py-4 sm:px-5">
                 <dt className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-muted-foreground">
-                  Academic home
+                  Wood &amp; bioproducts
                 </dt>
                 <dd className="mt-2 text-xs font-bold uppercase tracking-[0.1em] text-foreground">
-                  {siteConfig.university}
+                  Materials intelligence
                 </dd>
               </div>
-              <div className="col-span-2 bg-background px-4 py-4 sm:col-span-1">
+              <div className="col-span-2 bg-background px-4 py-4 sm:col-span-1 sm:px-5">
                 <dt className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-muted-foreground">
-                  Applications
+                  Industry partnerships
                 </dt>
                 <dd className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-primary">
-                  Industry &amp; materials research
+                  Applied research
                 </dd>
               </div>
             </dl>
           </div>
 
-          <div className="relative min-h-[32rem] overflow-hidden bg-primary lg:min-h-[44rem]">
+          <figure className="relative min-h-[30rem] overflow-hidden bg-primary lg:min-h-[43rem]">
             <Image
-              src="/lab/hero-placeholder.svg"
-              alt={
-                siteConfig.isTemplate
-                  ? 'Research image placeholder to be replaced with verified lab photography'
-                  : 'Research activity in the lab'
-              }
+              src="/products/tree-ring-input-example.webp"
+              alt="Wood cross-section with visible growth rings used for computer-vision research"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
-            {siteConfig.isTemplate ? (
-              <div className="absolute top-5 right-5 bg-background/95 px-3 py-2 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-primary shadow-sm">
-                Replace image
-              </div>
-            ) : null}
-          </div>
+            <div
+              className="pointer-events-none absolute inset-4 border border-white/45 sm:inset-6"
+              aria-hidden="true"
+            />
+            <div className="absolute top-6 left-6 bg-background px-3 py-2 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-primary shadow-sm sm:top-8 sm:left-8">
+              Wood science · Computer vision
+            </div>
+            <figcaption className="absolute right-0 bottom-0 left-0 bg-primary/95 px-6 py-5 text-primary-foreground sm:px-8 sm:py-6">
+              <p className="font-heading text-xl font-semibold sm:text-2xl">
+                Turning wood imagery into measurable data
+              </p>
+              <p className="mt-1.5 text-xs leading-5 text-primary-foreground/75 sm:text-sm">
+                Applied research in classification, assessment, and automated
+                analysis
+              </p>
+            </figcaption>
+          </figure>
         </Container>
       </section>
 
@@ -158,7 +169,7 @@ export default function Home() {
             <div className="mt-12">
               <EmptyState
                 title="Product catalog coming soon"
-                description="AIMS Lab models and public trials will appear here as they become ready."
+                description="MSU Wood AI models and public trials will appear here as they become ready."
               />
             </div>
           )}
@@ -323,7 +334,7 @@ export default function Home() {
                 <PersonCard person={principalInvestigator} featured />
               ) : null}
               {currentResearchers.length ? (
-                <div className="grid gap-7 sm:grid-cols-3 xl:gap-5">
+                <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3 xl:gap-5">
                   {currentResearchers.slice(0, 3).map((person) => (
                     <PersonCard key={person.id} person={person} />
                   ))}
@@ -361,9 +372,9 @@ export default function Home() {
               <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
           </div>
-          {newsItems.length ? (
+          {publishedNewsItems.length ? (
             <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-7">
-              {newsItems.slice(0, 3).map((item) => (
+              {publishedNewsItems.slice(0, 3).map((item) => (
                 <NewsCard key={item.id} item={item} />
               ))}
             </div>

@@ -21,7 +21,7 @@ export default function ProductsPage() {
       <PageHero
         eyebrow="Products"
         title="Explore and try our AI models"
-        description="A public catalog of AIMS Lab models, research prototypes, and software tools—with direct trial access when each product is ready."
+        description="A public catalog of MSU Wood AI models, research prototypes, and software tools—with direct trial access when each product is ready."
       />
 
       <section className="py-20 sm:py-24">
@@ -54,7 +54,7 @@ export default function ProductsPage() {
             <div className="mt-12">
               <EmptyState
                 title="Product catalog coming soon"
-                description="AIMS Lab models and public trials will appear here as they become ready for use."
+                description="MSU Wood AI models and public trials will appear here as they become ready for use."
               />
             </div>
           )}

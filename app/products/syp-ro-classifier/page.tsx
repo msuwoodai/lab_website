@@ -8,7 +8,7 @@ import { createPageMetadata } from '@/lib/metadata';
 
 export const metadata = createPageMetadata(
   'SYP–RO Image Classifier',
-  'Try the AIMS Lab SYP–RO image classification research prototype.',
+  'Try the MSU Wood AI SYP–RO image classification research prototype.',
 );
 
 export default function SypRoClassifierPage() {
@@ -79,7 +79,7 @@ export default function SypRoClassifierPage() {
                   </h2>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                  A resized and compressed copy is sent to the AIMS Lab
+                  A resized and compressed copy is sent to the MSU Wood AI
                   prediction service for this request. Your original stays on
                   your device, and the lab application does not save the copy
                   after the request completes.

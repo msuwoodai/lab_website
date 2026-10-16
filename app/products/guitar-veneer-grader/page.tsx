@@ -16,7 +16,7 @@ const productTitle = 'Developing deep learning models to grade guitar veneer';
 
 export const metadata = createPageMetadata(
   productTitle,
-  'Try the AIMS Lab guitar veneer grading research prototype for 2A, 3A, and 4A classification.',
+  'Try the MSU Wood AI guitar veneer grading research prototype for 2A, 3A, and 4A classification.',
 );
 
 export default function GuitarVeneerGraderPage() {
@@ -105,7 +105,7 @@ export default function GuitarVeneerGraderPage() {
                   </h2>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                  A resized and compressed copy is sent to the AIMS Lab
+                  A resized and compressed copy is sent to the MSU Wood AI
                   prediction service for this request. Your original stays on
                   your device, and the lab application does not save the copy
                   after the request completes.

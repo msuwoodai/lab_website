@@ -276,7 +276,7 @@ export function LabChat() {
               </span>
               <div className="min-w-0">
                 <p className="text-[0.62rem] font-bold tracking-[0.18em] text-primary uppercase">
-                  AIMS Lab · MSU
+                  MSU Wood AI
                 </p>
                 <h2
                   id="aims-lab-chat-title"
@@ -298,7 +298,7 @@ export function LabChat() {
               variant="ghost"
               size="icon-lg"
               onClick={closeChat}
-              aria-label="Close AIMS Lab assistant"
+              aria-label="Close MSU Wood AI assistant"
               className="size-10 text-muted-foreground hover:bg-secondary hover:text-primary"
             >
               <X aria-hidden="true" />
@@ -338,7 +338,7 @@ export function LabChat() {
                           : 'text-[0.65rem] font-bold tracking-[0.16em] text-muted-foreground uppercase'
                       }
                     >
-                      {isUser ? 'You' : 'AIMS Lab'}
+                      {isUser ? 'You' : 'MSU Wood AI'}
                     </p>
                     <p className="mt-1.5 whitespace-pre-wrap text-sm leading-6">
                       {message.content}
@@ -420,7 +420,7 @@ export function LabChat() {
             className="shrink-0 border-t border-border bg-secondary/55 p-3.5"
           >
             <label htmlFor="aims-chat-question" className="sr-only">
-              Ask AIMS Lab a question
+              Ask MSU Wood AI a question
             </label>
             {error ? (
               <p

@@ -7,7 +7,7 @@ export const researchAreas: ResearchArea[] = [
     shortDescription:
       'AI and machine-learning methods for labor-intensive analysis, classification, and inspection workflows.',
     description: [
-      'AIMS Lab works with industry partners to identify research problems within workflows that rely on manual analysis or classification. The lab studies how artificial intelligence and machine learning can support more consistent, scalable ways to interpret data and images.',
+      'MSU Wood AI works with industry partners to identify research problems within workflows that rely on manual analysis or classification. The lab studies how artificial intelligence and machine learning can support more consistent, scalable ways to interpret data and images.',
       'This work connects practical needs with model development and evaluation. The goal is to create research tools that complement domain expertise and can be assessed for the conditions in which they will be used.',
     ],
     topics: [

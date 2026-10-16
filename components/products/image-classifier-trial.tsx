@@ -769,7 +769,7 @@ function TreeRingPredictionPanel({
 
   function handleDownload() {
     if (resultImageUrl) {
-      downloadImageFile(resultImageUrl, 'aims-tree-ring-boundary-result.png');
+      downloadImageFile(resultImageUrl, 'msu-wood-ai-tree-ring-result.png');
     }
   }
 

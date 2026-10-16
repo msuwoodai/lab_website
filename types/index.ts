@@ -28,7 +28,7 @@ export interface SiteConfig {
   isTemplate: boolean;
   labName: string;
   shortName: string;
-  labExpansion: string;
+  tagline: string;
   university: string;
   department: string;
   affiliationStatement: string;
@@ -45,7 +45,6 @@ export interface SiteConfig {
   mailingAddress: string;
   mapsUrl?: string;
   universityDirectoryUrl?: string;
-  placeholderNotice: string;
 }
 
 export interface Person {

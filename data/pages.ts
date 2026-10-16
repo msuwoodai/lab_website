@@ -2,7 +2,7 @@ import type { ResearchPageContent } from '@/types';
 
 export const researchPageContent: ResearchPageContent = {
   heroDescription:
-    'AIMS Lab develops practical artificial intelligence and machine-learning methods for industry and materials research, with work spanning visual classification, bioproducts, transport modeling, and renewable energy systems.',
+    'MSU Wood AI develops practical artificial intelligence and machine-learning methods for wood science, bioproducts, materials research, and industry applications.',
   frameworkLabel: 'Research framework',
   framework: [
     'Our research begins with scientific and industrial problems that depend on time-intensive manual analysis. We work with industry partners to translate those challenges into rigorous machine-learning and computational research questions.',

@@ -5,7 +5,7 @@ import { Footer } from '@/components/site/footer';
 import { Header } from '@/components/site/header';
 import { chatConfig } from '@/data/chat';
 import { siteConfig } from '@/data/site';
-import { absoluteUrl, siteUrl } from '@/lib/metadata';
+import { siteUrl } from '@/lib/metadata';
 
 import './globals.css';
 
@@ -17,6 +17,16 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.labName,
+  keywords: [
+    'MSU Wood AI',
+    'Mississippi State University',
+    'wood science',
+    'artificial intelligence',
+    'machine learning',
+    'computer vision',
+    'sustainable bioproducts',
+  ],
+  category: 'education',
   icons: {
     icon: '/favicon.svg',
   },
@@ -25,20 +35,11 @@ export const metadata: Metadata = {
     siteName: siteConfig.labName,
     title: `${siteConfig.labName} at ${siteConfig.university}`,
     description: siteConfig.description,
-    images: [
-      {
-        url: absoluteUrl('/og-aims.png'),
-        width: 1731,
-        height: 909,
-        alt: `${siteConfig.labName}, a research laboratory at ${siteConfig.university}`,
-      },
-    ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: `${siteConfig.labName} at ${siteConfig.university}`,
     description: siteConfig.description,
-    images: [absoluteUrl('/og-aims.png')],
   },
 };
 
@@ -52,9 +53,35 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ResearchOrganization',
+    name: siteConfig.labName,
+    description: siteConfig.description,
+    url: siteUrl.toString(),
+    email: siteConfig.email,
+    parentOrganization: {
+      '@type': 'CollegeOrUniversity',
+      name: siteConfig.university,
+      url: 'https://www.msstate.edu/',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.location,
+      addressLocality: 'Starkville',
+      addressRegion: 'MS',
+      postalCode: '39759',
+      addressCountry: 'US',
+    },
+  };
+
   return (
     <html lang="en">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <a
           href="#main-content"
           className="fixed top-3 left-3 z-[100] -translate-y-20 bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"

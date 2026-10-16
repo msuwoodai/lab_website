@@ -3,7 +3,7 @@ import { EmptyState } from '@/components/site/empty-state';
 import { PageHero } from '@/components/site/page-hero';
 import { ProjectCard } from '@/components/site/project-card';
 import { SectionHeading } from '@/components/site/section-heading';
-import { projects } from '@/data/projects';
+import { publishedProjects } from '@/data/projects';
 import { siteConfig } from '@/data/site';
 import { createPageMetadata } from '@/lib/metadata';
 
@@ -13,10 +13,10 @@ export const metadata = createPageMetadata(
 );
 
 export default function ProjectsPage() {
-  const currentProjects = projects.filter(
+  const currentProjects = publishedProjects.filter(
     (project) => project.status === 'current',
   );
-  const completedProjects = projects.filter(
+  const completedProjects = publishedProjects.filter(
     (project) => project.status === 'completed',
   );
 

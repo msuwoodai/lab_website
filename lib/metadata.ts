@@ -1,9 +1,13 @@
+import type { Metadata } from 'next';
+
+import { siteConfig } from '@/data/site';
+
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const siteUrl = new URL(
   configuredSiteUrl && /^https?:\/\//.test(configuredSiteUrl)
     ? configuredSiteUrl
-    : 'http://localhost:3000',
+    : 'https://msuwoodai.com',
 );
 
 export function absoluteUrl(path: string) {
@@ -14,8 +18,6 @@ export function createPageMetadata(
   title: string,
   description: string,
 ): Metadata {
-  const socialImage = absoluteUrl('/og.png');
-
   return {
     title,
     description,
@@ -24,23 +26,11 @@ export function createPageMetadata(
       siteName: siteConfig.labName,
       title,
       description,
-      images: [
-        {
-          url: socialImage,
-          width: 1731,
-          height: 909,
-          alt: `${siteConfig.labName} academic research lab website`,
-        },
-      ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'summary',
       title,
       description,
-      images: [socialImage],
     },
   };
 }
-import type { Metadata } from 'next';
-
-import { siteConfig } from '@/data/site';

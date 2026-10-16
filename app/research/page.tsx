@@ -8,7 +8,7 @@ import { LinkButton } from '@/components/site/link-button';
 import { PageHero } from '@/components/site/page-hero';
 import { Tag } from '@/components/site/tag';
 import { researchPageContent } from '@/data/pages';
-import { projects } from '@/data/projects';
+import { publishedProjects } from '@/data/projects';
 import { publications } from '@/data/publications';
 import { researchAreas } from '@/data/research';
 import { siteConfig } from '@/data/site';
@@ -46,7 +46,7 @@ export default function ResearchPage() {
         {researchAreas.length ? researchAreas.map((area, index) => {
           const hasQuestions = Boolean(area.questions?.length);
           const hasMethods = Boolean(area.methods?.length);
-          const relatedProjects = projects.filter((project) =>
+          const relatedProjects = publishedProjects.filter((project) =>
             area.relatedProjects?.includes(project.id),
           );
           const relatedPublications = publications.filter((publication) =>

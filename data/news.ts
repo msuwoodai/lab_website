@@ -38,3 +38,7 @@ export const newsItems: NewsItem[] = [
     isPlaceholder: true,
   },
 ];
+
+export const publishedNewsItems = newsItems.filter(
+  (item) => !item.isPlaceholder,
+);

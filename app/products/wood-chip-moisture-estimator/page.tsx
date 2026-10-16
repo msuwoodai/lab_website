@@ -16,7 +16,7 @@ const productTitle = 'Wood Chip Moisture Content Estimator';
 
 export const metadata = createPageMetadata(
   productTitle,
-  'Try the AIMS Lab image-based wood-chip moisture content estimation research prototype.',
+  'Try the MSU Wood AI image-based wood-chip moisture content estimation research prototype.',
 );
 
 export default function WoodChipMoistureEstimatorPage() {
@@ -105,7 +105,7 @@ export default function WoodChipMoistureEstimatorPage() {
                   </h2>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                  A resized and compressed copy is sent to the AIMS Lab
+                  A resized and compressed copy is sent to the MSU Wood AI
                   prediction service for this request. Your original stays on
                   your device, and the lab application does not save the copy
                   after the request completes.

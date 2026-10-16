@@ -13,7 +13,7 @@ export function Footer() {
             {siteConfig.labName}
           </p>
           <p className="mt-2 text-sm italic text-primary-foreground/85">
-            {siteConfig.labExpansion}
+            {siteConfig.tagline}
           </p>
           <p className="mt-4 text-sm font-bold text-primary-foreground">
             {siteConfig.university}
@@ -49,7 +49,14 @@ export function Footer() {
             Contact
           </h2>
           <div className="mt-5 space-y-2 text-sm leading-6 text-primary-foreground/75">
-            <p>{siteConfig.email}</p>
+            <p>
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="underline decoration-primary-foreground/35 underline-offset-4 transition-colors hover:text-primary-foreground hover:decoration-primary-foreground"
+              >
+                {siteConfig.email}
+              </a>
+            </p>
             <p>{siteConfig.location}</p>
             <Link
               className="inline-block pt-2 font-semibold text-primary-foreground underline decoration-accent underline-offset-4"

@@ -3,7 +3,7 @@ import { EmptyState } from '@/components/site/empty-state';
 import { NewsCard } from '@/components/site/news-card';
 import { PageHero } from '@/components/site/page-hero';
 import { SectionHeading } from '@/components/site/section-heading';
-import { newsItems } from '@/data/news';
+import { publishedNewsItems } from '@/data/news';
 import { siteConfig } from '@/data/site';
 import { createPageMetadata } from '@/lib/metadata';
 
@@ -36,9 +36,9 @@ export default function NewsPage() {
                 : 'The latest confirmed activity from the lab, listed newest first.'
             }
           />
-          {newsItems.length ? (
+          {publishedNewsItems.length ? (
             <div className="mt-12 grid gap-x-7 gap-y-14 md:grid-cols-2 xl:grid-cols-3">
-              {newsItems.map((item) => (
+              {publishedNewsItems.map((item) => (
                 <NewsCard key={item.id} item={item} showContent />
               ))}
             </div>

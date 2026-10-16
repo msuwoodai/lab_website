@@ -35,7 +35,7 @@ export function PersonCard({ person, featured = false }: PersonCardProps) {
       }
     >
       {person.image ? (
-        <div className={featured ? undefined : 'w-full sm:w-[13rem]'}>
+        <div className={featured ? undefined : 'w-full'}>
           <div className="relative aspect-[4/5] overflow-hidden bg-muted">
             <Image
               src={person.image}
@@ -46,7 +46,11 @@ export function PersonCard({ person, featured = false }: PersonCardProps) {
                   : `${person.name}${person.title ? `, ${person.title}` : ''}`)
               }
               fill
-              sizes={featured ? '208px' : '(max-width: 639px) 100vw, 208px'}
+              sizes={
+                featured
+                  ? '208px'
+                  : '(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw'
+              }
               className="object-cover object-top"
             />
           </div>

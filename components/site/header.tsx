@@ -2,13 +2,13 @@
 
 import { Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 import { Container } from '@/components/site/container';
 import Link from '@/components/site/full-page-link';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -35,27 +35,12 @@ function BrandLockup({
     <span className="flex min-w-0 items-center">
       <span
         className={cn(
-          'flex shrink-0 items-baseline font-heading leading-none tracking-[-0.045em]',
-          compact ? 'text-[1.7rem]' : 'text-[1.85rem] sm:text-[2.45rem]',
-          inverse ? 'text-primary-foreground' : 'text-foreground',
+          'shrink-0 font-heading leading-none font-semibold tracking-[-0.055em]',
+          compact ? 'text-[1.65rem]' : 'text-[1.8rem] sm:text-[2.25rem]',
+          inverse ? 'text-primary-foreground' : 'text-primary',
         )}
-        aria-hidden="true"
       >
-        <span className="font-medium">AI</span>
-        <span
-          className="font-bold text-primary"
-          style={
-            inverse
-              ? {
-                  WebkitTextStroke: '1.15px var(--accent)',
-                  WebkitTextFillColor: 'var(--primary)',
-                }
-              : undefined
-          }
-        >
-          M
-        </span>
-        <span className="font-medium">S</span>
+        MSU
       </span>
       <span
         className={cn(
@@ -68,23 +53,25 @@ function BrandLockup({
       <span className="min-w-0 leading-tight">
         <span
           className={cn(
-            'block font-heading font-semibold',
-            compact ? 'text-sm' : 'text-[0.72rem] sm:text-[0.92rem]',
-            inverse ? 'text-primary-foreground' : 'text-primary',
+            'block font-heading font-semibold tracking-[0.08em]',
+            compact ? 'text-sm' : 'text-[0.78rem] sm:text-[0.98rem]',
+            inverse ? 'text-primary-foreground' : 'text-foreground',
           )}
         >
-          {siteConfig.university}
+          WOOD AI
         </span>
         <span
           className={cn(
             'mt-0.5 block font-medium',
             compact
-              ? 'text-[0.68rem]'
-              : 'max-w-[11.5rem] text-[0.58rem] sm:max-w-none sm:text-[0.72rem]',
-            inverse ? 'text-primary-foreground' : 'text-foreground/80',
+              ? 'text-[0.62rem]'
+              : 'max-w-[10.5rem] text-[0.54rem] sm:max-w-none sm:text-[0.68rem]',
+            inverse
+              ? 'text-primary-foreground/75'
+              : 'text-muted-foreground',
           )}
         >
-          {siteConfig.labExpansion}
+          {siteConfig.university}
         </span>
       </span>
     </span>
@@ -93,10 +80,11 @@ function BrandLockup({
 
 export function Header() {
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/15 bg-primary text-primary-foreground">
-      <Container className="flex min-h-[5.1rem] items-center justify-between gap-4 py-2.5">
+      <Container className="flex min-h-[5.25rem] items-center justify-between gap-3 py-2.5">
         <Link
           href="/"
           className="group min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-primary"
@@ -105,7 +93,7 @@ export function Header() {
           <BrandLockup inverse />
         </Link>
 
-        <nav aria-label="Primary navigation" className="hidden 2xl:block">
+        <nav aria-label="Primary navigation" className="hidden xl:block">
           <ul className="flex items-center gap-0.5">
             {navigation.map((item) => {
               const isCurrent = isCurrentPath(pathname, item.href);
@@ -128,13 +116,13 @@ export function Header() {
           </ul>
         </nav>
 
-        <Sheet>
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger
             render={
               <Button
                 variant="outline"
                 size="icon-lg"
-                className="size-11 rounded-sm border-white/35 bg-transparent text-primary-foreground hover:border-white/60 hover:bg-white/10 hover:text-primary-foreground focus-visible:border-primary-foreground focus-visible:ring-primary-foreground focus-visible:ring-offset-primary 2xl:hidden"
+                className="size-11 rounded-sm border-white/35 bg-transparent text-primary-foreground hover:border-white/60 hover:bg-white/10 hover:text-primary-foreground focus-visible:border-primary-foreground focus-visible:ring-primary-foreground focus-visible:ring-offset-primary xl:hidden"
                 aria-label="Open navigation menu"
               />
             }
@@ -156,21 +144,18 @@ export function Header() {
                   const isCurrent = isCurrentPath(pathname, item.href);
                   return (
                     <li key={item.href}>
-                      <SheetClose
-                        render={
-                          <Link
-                            href={item.href}
-                            aria-current={isCurrent ? 'page' : undefined}
-                            className={cn(
-                              'flex min-h-12 items-center border-l-2 border-transparent px-4 text-base font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                              isCurrent &&
-                                'border-primary bg-primary/[0.06] text-primary',
-                            )}
-                          />
-                        }
+                      <Link
+                        href={item.href}
+                        aria-current={isCurrent ? 'page' : undefined}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={cn(
+                          'flex min-h-12 items-center border-l-2 border-transparent px-4 text-base font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                          isCurrent &&
+                            'border-primary bg-primary/[0.06] text-primary',
+                        )}
                       >
                         {item.label}
-                      </SheetClose>
+                      </Link>
                     </li>
                   );
                 })}

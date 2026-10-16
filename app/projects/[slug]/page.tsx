@@ -8,7 +8,7 @@ import Link from '@/components/site/full-page-link';
 import { PublicationItem } from '@/components/site/publication-item';
 import { Tag } from '@/components/site/tag';
 import { people } from '@/data/people';
-import { getProjectBySlug, projects } from '@/data/projects';
+import { getProjectBySlug, publishedProjects } from '@/data/projects';
 import { publications } from '@/data/publications';
 import { cn } from '@/lib/utils';
 
@@ -17,7 +17,7 @@ interface ProjectDetailPageProps {
 }
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return publishedProjects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({

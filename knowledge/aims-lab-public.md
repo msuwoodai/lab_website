@@ -1,33 +1,33 @@
 ---
-title: AIMS Lab Public Knowledge Base
+title: MSU Wood AI Public Knowledge Base
 visibility: public
-last_reviewed: 2026-10-03
-maintainer: AIMS Lab
+last_reviewed: 2026-10-16
+maintainer: MSU Wood AI
 ---
 
-# AIMS Lab public knowledge
+# MSU Wood AI public knowledge
 
-This file contains the approved public information available to the AIMS Lab pilot assistant. Answers must be grounded in this file. If the requested information is absent, the assistant should say that it is not currently available and direct the visitor to the most relevant website page or contact.
+This file contains the approved public information available to the MSU Wood AI pilot assistant. Answers must be grounded in this file. If the requested information is absent, the assistant should say that it is not currently available and direct the visitor to the most relevant website page or contact.
 
 The pilot excludes draft projects, placeholder news, private model details, source code, model weights, training data, API credentials, confidential collaborator information, unpublished results, and unconfirmed student opportunities.
 
 ## Lab identity and affiliation
 
-- Lab name: AIMS Lab
-- Name expansion: Artificial Intelligence & Machine Systems
+- Lab name: MSU Wood AI
+- Descriptive tagline: Artificial Intelligence for Wood & Bioproducts
 - University: Mississippi State University
 - Department: Department of Sustainable Bioproducts
-- Affiliation: AIMS Lab is a research laboratory at Mississippi State University in the Department of Sustainable Bioproducts.
+- Affiliation: MSU Wood AI is a research laboratory at Mississippi State University within the Department of Sustainable Bioproducts.
 - Website status: This is the laboratory website. It represents a laboratory affiliated with Mississippi State University and is not the central Mississippi State University website.
 - Website sources: [Home](/) and [Contact](/contact)
 
 ## Mission and overview
 
-AIMS Lab partners with industry to develop practical artificial intelligence and machine-learning methods for automated analysis, image classification, materials assessment, and related research challenges.
+MSU Wood AI partners with researchers and industry to turn wood and materials data into practical AI tools for classification, inspection, measurement, and decision support.
 
-AIMS Lab is a research laboratory in the Department of Sustainable Bioproducts at Mississippi State University. We develop applied artificial intelligence and machine-learning methods that help industry partners automate labor-intensive analysis, classification, and inspection tasks.
+MSU Wood AI is a research laboratory in the Department of Sustainable Bioproducts at Mississippi State University. We develop applied artificial intelligence and machine-learning methods for wood science, bioproducts, materials research, and industry applications.
 
-AIMS Lab works with industry partners to study where artificial intelligence and machine learning can support repeatable analysis, classification, inspection, and other labor-intensive workflows. Public information does not identify private partners or disclose confidential partner data.
+MSU Wood AI works with industry partners to study where artificial intelligence and machine learning can support repeatable analysis, classification, inspection, and other labor-intensive workflows. Public information does not identify private partners or disclose confidential partner data.
 
 Website sources: [Home](/) and [Research](/research)
 
@@ -37,7 +37,7 @@ Website sources: [Home](/) and [Research](/research)
 
 AI and machine-learning methods for labor-intensive analysis, classification, and inspection workflows.
 
-AIMS Lab works with industry partners to identify research problems within workflows that rely on manual analysis or classification. The lab studies how artificial intelligence and machine learning can support more consistent, scalable ways to interpret data and images.
+MSU Wood AI works with industry partners to identify research problems within workflows that rely on manual analysis or classification. The lab studies how artificial intelligence and machine learning can support more consistent, scalable ways to interpret data and images.
 This work connects practical needs with model development and evaluation. The goal is to create research tools that complement domain expertise and can be assessed for the conditions in which they will be used.
 
 Topics: Industry collaboration; Workflow automation; Automated inspection.
@@ -115,7 +115,7 @@ The published roster currently lists 7 current lab members including the princip
 - Role: Principal investigator
 - Public title: Interim Head · Associate Professor
 
-Dr. Street leads AIMS Lab and serves as Interim Head and Associate Professor in Mississippi State University’s Department of Sustainable Bioproducts. His work spans sustainable materials, engineered wood products, artificial intelligence, transport modeling, and renewable energy systems.
+Dr. Street leads MSU Wood AI and serves as Interim Head and Associate Professor in Mississippi State University’s Department of Sustainable Bioproducts. His work spans sustainable materials, engineered wood products, artificial intelligence, transport modeling, and renewable energy systems.
 
 Research interests:
 
@@ -267,7 +267,7 @@ Website source: [People](/people)
 - Role: Alumnus
 - Public title: Laboratory Technician · Huber Engineered Woods
 
-Ethan Turo is an AIMS Lab alumnus with M.S. and B.S. degrees in Sustainable Bioproducts from Mississippi State University. His research involved testing the mechanical and physical properties of wood and engineered wood products and analyzing the resulting data. He is now a laboratory technician at Huber Engineered Woods.
+Ethan Turo is an MSU Wood AI alumnus with M.S. and B.S. degrees in Sustainable Bioproducts from Mississippi State University. His research involved testing the mechanical and physical properties of wood and engineered wood products and analyzing the resulting data. He is now a laboratory technician at Huber Engineered Woods.
 
 Research interests:
 
@@ -473,15 +473,15 @@ Current positions, supervision capacity, and funding are not confirmed by this k
 
 ## Approved frequently asked questions
 
-### What does AIMS stand for?
+### What is MSU Wood AI?
 
-Artificial Intelligence & Machine Systems.
+MSU Wood AI is a research laboratory at Mississippi State University that applies artificial intelligence, machine learning, and computer vision to wood, bioproducts, materials research, and related industry challenges.
 
 Source route: `/`
 
-### Who leads AIMS Lab?
+### Who leads MSU Wood AI?
 
-Dr. Jason Tyler Street leads AIMS Lab. He is listed as Interim Head and Associate Professor in the Department of Sustainable Bioproducts at Mississippi State University.
+Dr. Jason Tyler Street leads MSU Wood AI. He is listed as Interim Head and Associate Professor in the Department of Sustainable Bioproducts at Mississippi State University.
 
 Source route: `/people`
 
