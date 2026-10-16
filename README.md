@@ -1,8 +1,8 @@
-# AIMS Lab Website
+# MSU Wood AI Website
 
 A production-ready, mostly static research-lab website built with the Next.js App Router, TypeScript, Tailwind CSS, and the OpenAI Sites runtime. The site includes a complete homepage, research and people profiles, current and completed projects, a trial-ready AI products catalog, project detail routes, publications, news, opportunity guidance, and contact information.
 
-The provisional name is **AIMS Lab** (**Artificial Intelligence & Machine Systems**). The Mississippi State University and Department of Sustainable Bioproducts affiliation is confirmed. Other lab-specific facts remain bracketed placeholders and must be replaced or removed before publishing. Template guidance is controlled by `siteConfig.isTemplate` in `data/site.ts`; leave it enabled while content is incomplete.
+The public identity is **MSU Wood AI**, with the descriptive tagline **Artificial Intelligence for Wood & Bioproducts**. The Mississippi State University and Department of Sustainable Bioproducts affiliation is confirmed. Placeholder project and news records remain in the data files for future editing but are filtered out of public pages, detail routes, and the sitemap.
 
 ## Requirements
 
@@ -31,9 +31,9 @@ Preview the production worker after a successful build:
 npm start
 ```
 
-## AIMS Lab assistant pilot
+## MSU Wood AI assistant pilot
 
-The floating “Ask AIMS Lab” window is a removable RAG pilot backed by Cloudflare AI Search. The browser sends only the current question to the same-origin `/api/chat` route; earlier messages remain display-only so a visitor cannot forge prior assistant instructions. The Worker queries a single AI Search instance through the `AIMS_SEARCH` binding, and the browser never receives Cloudflare credentials.
+The floating “Ask MSU Wood AI” window is a removable RAG pilot backed by Cloudflare AI Search. The browser sends only the current question to the same-origin `/api/chat` route; earlier messages remain display-only so a visitor cannot forge prior assistant instructions. The Worker queries a single AI Search instance through the `AIMS_SEARCH` binding, and the browser never receives Cloudflare credentials.
 
 ### Approved knowledge
 
@@ -75,7 +75,7 @@ Most content changes require editing only one typed data file:
 
 | Content                                                                      | File                   | What to update                                                                                                                                              |
 | ---------------------------------------------------------------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Lab name, affiliation wording, email, address, logo paths, and template mode | `data/site.ts`         | Update `labName`, `shortName`, and `labExpansion` together if the provisional name changes; preserve the confirmed MSU affiliation and approved asset paths |
+| Lab name, affiliation wording, email, address, logo paths, and template mode | `data/site.ts`         | Update `labName`, `shortName`, and `tagline` together if the public identity changes; preserve the confirmed MSU affiliation and approved asset paths |
 | Research page copy                                                           | `data/pages.ts`        | Update the research overview and collaboration note                                                                                                         |
 | People and alumni                                                            | `data/people.ts`       | Add or edit a `Person` record                                                                                                                               |
 | Research directions                                                          | `data/research.ts`     | Add explanations, questions, methods, and related records                                                                                                   |
@@ -130,7 +130,7 @@ public/
 
 Replace the placeholder files with approved lab imagery and update each data record’s image path and alt text. Preserve the displayed aspect ratio when possible to avoid layout shift. Use descriptive alt text that explains the image’s meaning, not its visual appearance alone.
 
-The active site-wide social card is `public/og-aims.png`. Replace it and update `app/layout.tsx` when the lab name or visual identity changes.
+Social metadata is currently text-only. Add an approved site-wide card as `public/og.png` and update `app/layout.tsx` and `lib/metadata.ts` together when a final branded image is available.
 
 ## Mississippi State University affiliation and approved marks
 
@@ -147,7 +147,7 @@ Every major page defines a title and description. Sitemap, robots, and social-im
 Copy `.env.example` to `.env.local` and provide the final public origin:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://www.example-lab.org
+NEXT_PUBLIC_SITE_URL=https://msuwoodai.com
 ```
 
 This value is public and must include `https://` in production.
@@ -160,7 +160,7 @@ Before launch, search for unresolved bracketed fields:
 rg -n -U -P '\[[A-Z][^\]]*\]' app data public
 ```
 
-Review every match. Public pages should contain confirmed lab information only. After the search is clean and the content has been approved, set `isTemplate: false` in `data/site.ts` to remove the preview banner and template-only notices.
+Review every match. Public pages should contain confirmed lab information only. Placeholder records may remain as unpublished editing scaffolds only when public exports continue to filter them out.
 
 ## Deployment
 
