@@ -38,12 +38,16 @@ export interface ClassDefinition {
   label: string;
 }
 
-export interface LabeledImageExample {
+export interface ImageTrialExample {
   id: string;
   src: string;
   filename: string;
   alt: string;
   title: string;
+  note?: string;
+}
+
+export interface LabeledImageExample extends ImageTrialExample {
   expectedClassKey: string;
   expectedClassLabel: string;
 }
@@ -66,6 +70,7 @@ interface ImageSegmentationTrialProps {
   endpoint: string;
   inputId: string;
   instructions: string;
+  examples?: readonly ImageTrialExample[];
 }
 
 interface ImageTrialProps<Result> {
@@ -79,9 +84,9 @@ interface ImageTrialProps<Result> {
   renderResult: (
     result: Result,
     previewUrl: string | null,
-    selectedExample: LabeledImageExample | null,
+    selectedExample: ImageTrialExample | null,
   ) => ReactNode;
-  examples?: readonly LabeledImageExample[];
+  examples?: readonly ImageTrialExample[];
 }
 
 interface PredictionResult {
@@ -231,6 +236,12 @@ function getErrorMessage(value: unknown) {
   return typeof error === 'string' ? error : null;
 }
 
+function isLabeledImageExample(
+  example: ImageTrialExample,
+): example is LabeledImageExample {
+  return 'expectedClassKey' in example && 'expectedClassLabel' in example;
+}
+
 export function ImageClassifierTrial({
   endpoint,
   inputId,
@@ -251,7 +262,11 @@ export function ImageClassifierTrial({
         <PredictionPanel
           prediction={prediction}
           classes={classes}
-          selectedExample={selectedExample}
+          selectedExample={
+            selectedExample && isLabeledImageExample(selectedExample)
+              ? selectedExample
+              : null
+          }
         />
       )}
       examples={examples}
@@ -284,6 +299,7 @@ export function ImageSegmentationTrial({
   endpoint,
   inputId,
   instructions,
+  examples,
 }: ImageSegmentationTrialProps) {
   return (
     <ImageTrial
@@ -294,12 +310,14 @@ export function ImageSegmentationTrial({
       submittingLabel="Detecting…"
       failureMessage="Tree-ring boundaries could not be detected. Try again."
       parseResult={parseTreeRingPredictionResult}
-      renderResult={(prediction, previewUrl) => (
+      renderResult={(prediction, previewUrl, selectedExample) => (
         <TreeRingPredictionPanel
           prediction={prediction}
           previewUrl={previewUrl}
+          isExampleInput={Boolean(selectedExample)}
         />
       )}
+      examples={examples}
     />
   );
 }
@@ -323,7 +341,7 @@ function ImageTrial<Result>({
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedExample, setSelectedExample] =
-    useState<LabeledImageExample | null>(null);
+    useState<ImageTrialExample | null>(null);
   const [isPreparing, setIsPreparing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -352,7 +370,7 @@ function ImageTrial<Result>({
 
   async function prepareSelection(
     loadFile: () => Promise<File>,
-    example: LabeledImageExample | null,
+    example: ImageTrialExample | null,
   ) {
     const requestId = preparationRequestRef.current + 1;
     preparationRequestRef.current = requestId;
@@ -432,7 +450,7 @@ function ImageTrial<Result>({
     await prepareSelection(async () => selectedFile, null);
   }
 
-  async function handleExampleSelect(example: LabeledImageExample) {
+  async function handleExampleSelect(example: ImageTrialExample) {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -537,11 +555,14 @@ function ImageTrial<Result>({
         {examples.length > 0 ? (
           <fieldset>
             <legend className="text-sm font-bold text-foreground">
-              Try a labeled example
+              {examples.every(isLabeledImageExample)
+                ? 'Try a labeled example'
+                : 'Try an example input'}
             </legend>
             <p className="mt-2 max-w-2xl text-xs leading-5 text-muted-foreground">
-              Select an image with a known label, run the model, and compare
-              the reference label with the prediction.
+              {examples.every(isLabeledImageExample)
+                ? 'Select an image with a known label, run the model, and compare the reference label with the prediction.'
+                : 'Select the reference image, run the model, and inspect its predicted boundary overlay.'}
             </p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {examples.map((example) => {
@@ -573,8 +594,15 @@ function ImageTrial<Result>({
                       {example.title}
                     </span>
                     <span className="mt-1 block text-xs font-bold uppercase tracking-[0.12em] text-primary">
-                      Known label: {example.expectedClassLabel}
+                      {isLabeledImageExample(example)
+                        ? `Known label: ${example.expectedClassLabel}`
+                        : 'Example input'}
                     </span>
+                    {example.note ? (
+                      <span className="mt-2 block text-xs leading-5 text-muted-foreground">
+                        {example.note}
+                      </span>
+                    ) : null}
                     <span className="mt-2 block text-xs text-muted-foreground">
                       {isSelected ? 'Selected' : 'Use this example'}
                     </span>
@@ -661,11 +689,20 @@ function ImageTrial<Result>({
               {selectedExample ? (
                 <div className="mt-3 border-l-2 border-primary bg-primary/[0.05] px-3 py-2">
                   <p className="text-xs font-bold uppercase tracking-[0.12em] text-primary">
-                    Known label
+                    {isLabeledImageExample(selectedExample)
+                      ? 'Known label'
+                      : 'Reference input'}
                   </p>
                   <p className="mt-1 text-sm font-semibold">
-                    {selectedExample.expectedClassLabel}
+                    {isLabeledImageExample(selectedExample)
+                      ? selectedExample.expectedClassLabel
+                      : selectedExample.title}
                   </p>
+                  {selectedExample.note ? (
+                    <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                      {selectedExample.note}
+                    </p>
+                  ) : null}
                 </div>
               ) : null}
             </div>
@@ -896,9 +933,11 @@ function MoisturePredictionPanel({
 function TreeRingPredictionPanel({
   prediction,
   previewUrl,
+  isExampleInput,
 }: {
   prediction: TreeRingPredictionResult;
   previewUrl: string | null;
+  isExampleInput: boolean;
 }) {
   const [resultImageUrl, setResultImageUrl] = useState<string | null>(null);
   const [resultImageError, setResultImageError] = useState<string | null>(null);
@@ -979,6 +1018,20 @@ function TreeRingPredictionPanel({
           </p>
         </div>
       </div>
+
+      {isExampleInput ? (
+        <div className="mt-5 flex items-start gap-3 border border-primary/25 bg-card px-4 py-3 text-sm leading-6">
+          <CircleAlert
+            className="mt-0.5 size-5 shrink-0 text-primary"
+            aria-hidden="true"
+          />
+          <p>
+            This reference image does not include a human-annotated boundary
+            mask. The result below demonstrates the model output; it is not an
+            accuracy comparison against known boundaries.
+          </p>
+        </div>
+      ) : null}
 
       <div className="mt-7 grid gap-5 md:grid-cols-2">
         <figure>

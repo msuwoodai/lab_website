@@ -6,7 +6,6 @@ import {
   LockKeyhole,
   Microscope,
 } from 'lucide-react';
-import Image from 'next/image';
 
 import { TreeRingBoundaryDetector } from '@/components/products/tree-ring-boundary-detector';
 import { Container } from '@/components/site/container';
@@ -27,7 +26,7 @@ export default function TreeRingBoundaryDetectorPage() {
       <PageHero
         eyebrow="Products · Image segmentation"
         title={productTitle}
-        description="Upload a wood cross-section image to visualize boundary pixels predicted by the generic model across varied species and capture conditions."
+        description="Choose the example cross-section or upload your own image to visualize boundary pixels predicted by the generic model."
       />
 
       <section className="py-16 sm:py-20 lg:py-24">
@@ -44,30 +43,16 @@ export default function TreeRingBoundaryDetectorPage() {
             <TreeRingBoundaryDetector />
 
             <aside className="space-y-8" aria-label="Model information">
-              <figure className="border border-border bg-card p-5">
-                <div className="relative aspect-[1000/852] overflow-hidden border border-border bg-muted">
-                  <Image
-                    src="/products/tree-ring-input-example.webp"
-                    alt="Douglas fir log cross-section photographed face-on with visible growth rings and a measuring scale"
-                    fill
-                    sizes="(min-width: 1024px) 28vw, 90vw"
-                    className="object-cover"
-                  />
-                  <span className="absolute left-3 top-3 bg-primary px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground">
-                    Example input
-                  </span>
-                </div>
-                <figcaption className="mt-5">
-                  <h2 className="font-heading text-2xl font-semibold">
-                    What to upload
-                  </h2>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    Choose a focused image of the complete wood cross-section.
-                    Center the sample, keep the growth rings visible, and use
-                    even lighting with as little background clutter as possible.
-                  </p>
-                </figcaption>
-              </figure>
+              <section className="border border-border bg-card p-6">
+                <h2 className="font-heading text-2xl font-semibold">
+                  What to upload
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  Choose a focused image of the complete wood cross-section.
+                  Center the sample, keep the growth rings visible, and use even
+                  lighting with as little background clutter as possible.
+                </p>
+              </section>
 
               <section className="border-t-4 border-primary bg-secondary/60 p-6">
                 <div className="flex items-center gap-3 text-primary">
