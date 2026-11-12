@@ -17,7 +17,7 @@ export default function SypRoClassifierPage() {
       <PageHero
         eyebrow="Products · Image classification"
         title="Try the SYP–RO image classifier"
-        description="Upload a supported image to receive the model’s predicted class and confidence scores for RO and SYP."
+        description="Choose a labeled example or upload your own image to compare the known class with the model’s prediction and confidence scores."
       />
 
       <section className="py-16 sm:py-20 lg:py-24">

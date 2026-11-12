@@ -25,7 +25,7 @@ export default function GuitarVeneerGraderPage() {
       <PageHero
         eyebrow="Products · Veneer grading"
         title={productTitle}
-        description="Upload a supported image to receive the model’s predicted guitar veneer grade and scores for 2A, 3A, and 4A."
+        description="Choose a labeled example or upload your own image to compare the known veneer grade with the model’s prediction and scores."
       />
 
       <section className="py-16 sm:py-20 lg:py-24">

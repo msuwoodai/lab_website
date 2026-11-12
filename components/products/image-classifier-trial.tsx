@@ -1,6 +1,13 @@
 'use client';
 
-import { Download, ImageUp, LoaderCircle, RotateCcw } from 'lucide-react';
+import {
+  CircleAlert,
+  CircleCheck,
+  Download,
+  ImageUp,
+  LoaderCircle,
+  RotateCcw,
+} from 'lucide-react';
 import Image from 'next/image';
 import {
   type ChangeEvent,
@@ -31,11 +38,22 @@ export interface ClassDefinition {
   label: string;
 }
 
+export interface LabeledImageExample {
+  id: string;
+  src: string;
+  filename: string;
+  alt: string;
+  title: string;
+  expectedClassKey: string;
+  expectedClassLabel: string;
+}
+
 interface ImageClassifierTrialProps {
   endpoint: string;
   inputId: string;
   instructions: string;
   classes: readonly ClassDefinition[];
+  examples?: readonly LabeledImageExample[];
 }
 
 interface ImageRegressionTrialProps {
@@ -58,7 +76,12 @@ interface ImageTrialProps<Result> {
   submittingLabel: string;
   failureMessage: string;
   parseResult: (value: unknown) => Result | null;
-  renderResult: (result: Result, previewUrl: string | null) => ReactNode;
+  renderResult: (
+    result: Result,
+    previewUrl: string | null,
+    selectedExample: LabeledImageExample | null,
+  ) => ReactNode;
+  examples?: readonly LabeledImageExample[];
 }
 
 interface PredictionResult {
@@ -213,6 +236,7 @@ export function ImageClassifierTrial({
   inputId,
   instructions,
   classes,
+  examples,
 }: ImageClassifierTrialProps) {
   return (
     <ImageTrial
@@ -223,9 +247,14 @@ export function ImageClassifierTrial({
       submittingLabel="Classifying…"
       failureMessage="The image could not be classified. Try again."
       parseResult={(value) => parsePredictionResult(value, classes)}
-      renderResult={(prediction) => (
-        <PredictionPanel prediction={prediction} classes={classes} />
+      renderResult={(prediction, _previewUrl, selectedExample) => (
+        <PredictionPanel
+          prediction={prediction}
+          classes={classes}
+          selectedExample={selectedExample}
+        />
       )}
+      examples={examples}
     />
   );
 }
@@ -284,6 +313,7 @@ function ImageTrial<Result>({
   failureMessage,
   parseResult,
   renderResult,
+  examples = [],
 }: ImageTrialProps<Result>) {
   const [file, setFile] = useState<File | null>(null);
   const [fileDetails, setFileDetails] = useState<PreparedImageUpload | null>(
@@ -292,6 +322,8 @@ function ImageTrial<Result>({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [selectedExample, setSelectedExample] =
+    useState<LabeledImageExample | null>(null);
   const [isPreparing, setIsPreparing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -318,54 +350,40 @@ function ImageTrial<Result>({
     setPreviewUrl(nextUrl);
   }
 
-  async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const selectedFile = event.target.files?.[0] ?? null;
+  async function prepareSelection(
+    loadFile: () => Promise<File>,
+    example: LabeledImageExample | null,
+  ) {
     const requestId = preparationRequestRef.current + 1;
     preparationRequestRef.current = requestId;
 
     setResult(null);
     setError(null);
-    setFileDetails(null);
-
-    if (!selectedFile) {
-      setIsPreparing(false);
-      setFile(null);
-      replacePreview(null);
-      return;
-    }
-
-    if (!allowedImageTypes.has(selectedFile.type.toLowerCase())) {
-      setIsPreparing(false);
-      setFile(null);
-      replacePreview(null);
-      setError('Choose a JPEG, PNG, or WebP image.');
-      event.target.value = '';
-      return;
-    }
-
-    if (selectedFile.size > MAX_SELECTED_FILE_BYTES) {
-      setIsPreparing(false);
-      setFile(null);
-      replacePreview(null);
-      setError('Choose an image no larger than 50 MB.');
-      event.target.value = '';
-      return;
-    }
-
-    if (selectedFile.size === 0) {
-      setIsPreparing(false);
-      setFile(null);
-      replacePreview(null);
-      setError('The selected image is empty. Choose another file.');
-      event.target.value = '';
-      return;
-    }
-
     setFile(null);
+    setFileDetails(null);
+    setSelectedExample(null);
     replacePreview(null);
     setIsPreparing(true);
 
     try {
+      const selectedFile = await loadFile();
+
+      if (preparationRequestRef.current !== requestId) {
+        return;
+      }
+
+      if (!allowedImageTypes.has(selectedFile.type.toLowerCase())) {
+        throw new Error('Choose a JPEG, PNG, or WebP image.');
+      }
+
+      if (selectedFile.size > MAX_SELECTED_FILE_BYTES) {
+        throw new Error('Choose an image no larger than 50 MB.');
+      }
+
+      if (selectedFile.size === 0) {
+        throw new Error('The selected image is empty. Choose another file.');
+      }
+
       const preparedImage = await prepareImageUpload(selectedFile, {
         maxDimension: MAX_IMAGE_DIMENSION,
         targetBytes: TARGET_UPLOAD_BYTES,
@@ -378,6 +396,7 @@ function ImageTrial<Result>({
 
       setFile(preparedImage.file);
       setFileDetails(preparedImage);
+      setSelectedExample(example);
       replacePreview(preparedImage.file);
     } catch (caughtError) {
       if (preparationRequestRef.current !== requestId) {
@@ -402,11 +421,43 @@ function ImageTrial<Result>({
     }
   }
 
+  async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const selectedFile = event.target.files?.[0] ?? null;
+
+    if (!selectedFile) {
+      resetTrial();
+      return;
+    }
+
+    await prepareSelection(async () => selectedFile, null);
+  }
+
+  async function handleExampleSelect(example: LabeledImageExample) {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+
+    await prepareSelection(async () => {
+      const response = await fetch(example.src, { cache: 'force-cache' });
+
+      if (!response.ok) {
+        throw new Error('This example image could not be loaded. Try again.');
+      }
+
+      const blob = await response.blob();
+      return new File([blob], example.filename, {
+        type: blob.type,
+        lastModified: 0,
+      });
+    }, example);
+  }
+
   function resetTrial() {
     preparationRequestRef.current += 1;
     setIsPreparing(false);
     setFile(null);
     setFileDetails(null);
+    setSelectedExample(null);
     replacePreview(null);
     setResult(null);
     setError(null);
@@ -469,7 +520,9 @@ function ImageTrial<Result>({
           Live model trial
         </p>
         <h2 className="mt-3 font-heading text-3xl font-semibold tracking-[-0.025em]">
-          Upload an image
+          {examples.length > 0
+            ? 'Choose an example or upload an image'
+            : 'Upload an image'}
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
           {instructions}
@@ -481,11 +534,68 @@ function ImageTrial<Result>({
         onSubmit={handleSubmit}
         aria-busy={isPreparing || isSubmitting}
       >
+        {examples.length > 0 ? (
+          <fieldset>
+            <legend className="text-sm font-bold text-foreground">
+              Try a labeled example
+            </legend>
+            <p className="mt-2 max-w-2xl text-xs leading-5 text-muted-foreground">
+              Select an image with a known label, run the model, and compare
+              the reference label with the prediction.
+            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {examples.map((example) => {
+                const isSelected = selectedExample?.id === example.id;
+
+                return (
+                  <button
+                    key={example.id}
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => void handleExampleSelect(example)}
+                    disabled={isPreparing || isSubmitting}
+                    className={`group min-h-11 border p-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 ${
+                      isSelected
+                        ? 'border-primary bg-primary/[0.06]'
+                        : 'border-border bg-card hover:border-primary/55 hover:bg-secondary/45'
+                    }`}
+                  >
+                    <span className="relative block aspect-[4/3] overflow-hidden bg-muted">
+                      <Image
+                        src={example.src}
+                        alt={example.alt}
+                        fill
+                        sizes="(min-width: 1280px) 200px, (min-width: 640px) 260px, 80vw"
+                        className="object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+                      />
+                    </span>
+                    <span className="mt-3 block text-sm font-semibold">
+                      {example.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-bold uppercase tracking-[0.12em] text-primary">
+                      Known label: {example.expectedClassLabel}
+                    </span>
+                    <span className="mt-2 block text-xs text-muted-foreground">
+                      {isSelected ? 'Selected' : 'Use this example'}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="my-7 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
+              <span className="h-px flex-1 bg-border" aria-hidden="true" />
+              <span>Or upload your own</span>
+              <span className="h-px flex-1 bg-border" aria-hidden="true" />
+            </div>
+          </fieldset>
+        ) : null}
+
         <label
           htmlFor={inputId}
           className="block text-sm font-bold text-foreground"
         >
-          Image file
+          {examples.length > 0 ? 'Your image file' : 'Image file'}
         </label>
         <div className="mt-3 border border-dashed border-primary/40 bg-secondary/55 p-5 sm:p-6">
           <div className="flex items-start gap-4">
@@ -548,6 +658,16 @@ function ImageTrial<Result>({
                 Your original file stays on this device. Only this prepared copy
                 is sent when you run the model.
               </p>
+              {selectedExample ? (
+                <div className="mt-3 border-l-2 border-primary bg-primary/[0.05] px-3 py-2">
+                  <p className="text-xs font-bold uppercase tracking-[0.12em] text-primary">
+                    Known label
+                  </p>
+                  <p className="mt-1 text-sm font-semibold">
+                    {selectedExample.expectedClassLabel}
+                  </p>
+                </div>
+              ) : null}
             </div>
           </div>
         ) : null}
@@ -608,7 +728,7 @@ function ImageTrial<Result>({
           </div>
         ) : null}
 
-        {result ? renderResult(result, previewUrl) : null}
+        {result ? renderResult(result, previewUrl, selectedExample) : null}
       </div>
     </div>
   );
@@ -617,34 +737,96 @@ function ImageTrial<Result>({
 function PredictionPanel({
   prediction,
   classes,
+  selectedExample,
 }: {
   prediction: PredictionResult;
   classes: readonly ClassDefinition[];
+  selectedExample: LabeledImageExample | null;
 }) {
   const predictedLabel =
     classes.find(
       (classDefinition) => classDefinition.key === prediction.predicted_class,
     )?.label ?? prediction.predicted_class;
+  const matchesKnownLabel = selectedExample
+    ? selectedExample.expectedClassKey === prediction.predicted_class
+    : null;
 
   return (
     <section className="border-t-4 border-primary bg-secondary/60 p-5 sm:p-7">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
         Prediction complete
       </p>
-      <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h3 className="font-heading text-4xl font-semibold tracking-[-0.02em]">
-            {predictedLabel}
-          </h3>
-          <p className="mt-1 text-sm text-muted-foreground">Predicted class</p>
+      {selectedExample ? (
+        <>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="border border-border bg-card p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                Known label
+              </p>
+              <p className="mt-2 font-heading text-3xl font-semibold tracking-[-0.02em]">
+                {selectedExample.expectedClassLabel}
+              </p>
+            </div>
+            <div className="border border-primary/35 bg-card p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">
+                Model prediction
+              </p>
+              <div className="mt-2 flex flex-wrap items-end justify-between gap-3">
+                <p className="font-heading text-3xl font-semibold tracking-[-0.02em]">
+                  {predictedLabel}
+                </p>
+                <p className="text-sm font-semibold text-primary">
+                  {percentFormatter.format(prediction.confidence)} confidence
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`mt-3 flex items-start gap-3 border px-4 py-3 text-sm font-semibold ${
+              matchesKnownLabel
+                ? 'border-primary/30 bg-primary/[0.06] text-foreground'
+                : 'border-amber-700/35 bg-amber-50 text-amber-950'
+            }`}
+          >
+            {matchesKnownLabel ? (
+              <CircleCheck
+                className="mt-0.5 size-5 shrink-0 text-primary"
+                aria-hidden="true"
+              />
+            ) : (
+              <CircleAlert
+                className="mt-0.5 size-5 shrink-0 text-amber-800"
+                aria-hidden="true"
+              />
+            )}
+            <span>
+              {matchesKnownLabel
+                ? 'The model prediction matches this example’s known label.'
+                : 'The model prediction differs from this example’s known label.'}
+            </span>
+          </div>
+        </>
+      ) : (
+        <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h3 className="font-heading text-4xl font-semibold tracking-[-0.02em]">
+              {predictedLabel}
+            </h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Predicted class
+            </p>
+          </div>
+          <div className="text-left sm:text-right">
+            <p className="font-heading text-3xl font-semibold text-primary">
+              {percentFormatter.format(prediction.confidence)}
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Model confidence
+            </p>
+          </div>
         </div>
-        <div className="text-left sm:text-right">
-          <p className="font-heading text-3xl font-semibold text-primary">
-            {percentFormatter.format(prediction.confidence)}
-          </p>
-          <p className="mt-1 text-sm text-muted-foreground">Model confidence</p>
-        </div>
-      </div>
+      )}
 
       <div className="mt-7 border-t border-border pt-6">
         <h4 className="text-sm font-bold">Class probabilities</h4>
